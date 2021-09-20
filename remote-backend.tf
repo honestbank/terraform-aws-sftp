@@ -24,5 +24,5 @@ module "sftp" {
   source                         = "./sftp"
   transfer_server_name           = var.transfer_server_name
   transfer_server_s3_bucket_name = var.transfer_server_s3_bucket_name
-  transfer_server_users          = var.transfer_server_users
+  transfer_server_write_users    = var.transfer_server_write_users
 }
