@@ -22,16 +22,11 @@ func TestTerraformAwsTransfer(t *testing.T) {
 		Vars: map[string]interface{}{
 			"transfer_server_name":           "terratest-sftp-server",
 			"transfer_server_s3_bucket_name": name,
-			"transfer_server_users": []map[string]interface{}{
+			"transfer_server_write_users": []map[string]interface{}{
 				{
-					"user_name":      "example1-user",
+					"user_name":      "terratest-user01",
 					"ssh_key":        "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDOt6TLtVqAZ2cb07xmmatfDbThVu3lEP8i0wnhZ0/t11YRARvoLQf31LaxI20M6oSRJNLpuSyl2jDJ35/BpltdAsSC7eGumxSev23dr5l3MSKNEnZzrAbBPtKpQKALqsXuG9d6Xf9N4pMTn0LjswCKcnHAiO+DoqoX8NS2sT7znOzA6/IxXiYUsNsOiI2pyM9Z6z+m+ukOvZyjuF5bdLMjyTwCtlCOZ1XpD4c+bu/uJsWECKp14hn23QJtGo/KebpY4oUn/qYo1WC+0wVp2AQsDeNcojiTsU9fBADM0SzVp5OR0r2tbBgxXrB2adApj+YpBtaOTDt3E2j32otsYGTF0snf974eLsumZ5TI3aaVKH1NgqhTjRyifmI4h65/h3qVlggNV3ywAzSHtn79FEEXaJDiOFLRSsMTpaUkM5CjiJR5/PxkJ7LxPMECzET+juSosWfrc2Ttivke9HhIi6FJBnNIOnuvUHU/EEWA55vnqlVnZMoCVPPJd0BvbTACXtM=",
-					"home_directory": "example1-home",
-				},
-				{
-					"user_name":      "example2-user",
-					"ssh_key":        "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDOt6TLtVqAZ2cb07xmmatfDbThVu3lEP8i0wnhZ0/t11YRARvoLQf31LaxI20M6oSRJNLpuSyl2jDJ35/BpltdAsSC7eGumxSev23dr5l3MSKNEnZzrAbBPtKpQKALqsXuG9d6Xf9N4pMTn0LjswCKcnHAiO+DoqoX8NS2sT7znOzA6/IxXiYUsNsOiI2pyM9Z6z+m+ukOvZyjuF5bdLMjyTwCtlCOZ1XpD4c+bu/uJsWECKp14hn23QJtGo/KebpY4oUn/qYo1WC+0wVp2AQsDeNcojiTsU9fBADM0SzVp5OR0r2tbBgxXrB2adApj+YpBtaOTDt3E2j32otsYGTF0snf974eLsumZ5TI3aaVKH1NgqhTjRyifmI4h65/h3qVlggNV3ywAzSHtn79FEEXaJDiOFLRSsMTpaUkM5CjiJR5/PxkJ7LxPMECzET+juSosWfrc2Ttivke9HhIi6FJBnNIOnuvUHU/EEWA55vnqlVnZMoCVPPJd0BvbTACXtM=",
-					"home_directory": "example2-home",
+					"home_directory": "terratest-user01-home",
 				},
 			},
 		},
