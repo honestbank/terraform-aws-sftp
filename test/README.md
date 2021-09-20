@@ -1,4 +1,4 @@
-# terraform-aws-eks Tests
+# terraform-aws-sftp Tests
 
 This module is tested using the [Terratest framework](https://github.com/gruntwork-io/terratest).
 
@@ -7,7 +7,7 @@ This module is tested using the [Terratest framework](https://github.com/gruntwo
 1. Assume the `OrganizationAccountAccessRole` role in the AWS account we use for tests:
 
 ```shell
-output=$(aws sts assume-role --role-arn arn:aws:iam::106256755710:role/OrganizationAccountAccessRole --role-session-name lab-role-session)
+output=$(aws sts assume-role --role-arn arn:aws:iam::295611461399:role/OrganizationAccountAccessRole --role-session-name lab-role-session)
 export AWS_ACCESS_KEY_ID=$(echo $output | jq -r '.Credentials.AccessKeyId') \
        AWS_SECRET_ACCESS_KEY=$(echo $output | jq -r '.Credentials.SecretAccessKey') \
        AWS_SESSION_TOKEN=$(echo $output | jq -r '.Credentials.SessionToken') \
