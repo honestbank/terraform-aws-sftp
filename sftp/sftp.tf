@@ -18,11 +18,6 @@ resource "random_id" "aws_s3_bucket_transfer_server" {
   byte_length = 8
 }
 
-resource "aws_kms_key" "transfer_server_bucket_key" {
-  description             = "This key is used to encrypt the transfer server S3 bucket contents"
-  deletion_window_in_days = 10
-}
-
 
 resource "aws_s3_bucket" "transfer_server_bucket" {
   bucket        = local.s3_bucket_name
