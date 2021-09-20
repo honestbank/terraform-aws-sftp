@@ -29,6 +29,10 @@ resource "aws_s3_bucket" "transfer_server_bucket" {
   acl           = "private"
   force_destroy = false
 
+  versioning {
+    enabled = true
+  }
+
   tags = {
     Name = local.s3_bucket_name
   }
