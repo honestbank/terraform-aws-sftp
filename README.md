@@ -3,8 +3,8 @@
 This script builds an AWS Transfer Family server that is backed by an S3 bucket:
 
     * Communicates via SFTP (ftp, ftps are disabled)
-    * Has per-user home-directory permissions
-    * Users access via SSH keys
+    * Has per-user home-directory permissions, which users locked to their own home directory and sub-directories
+    * Users access the SFTP server via SSH keys
 
 ## Requirements
 
