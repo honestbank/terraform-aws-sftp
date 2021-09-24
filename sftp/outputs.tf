@@ -1,11 +1,11 @@
 output "transfer_server_arn" {
-  value = aws_transfer_server.transfer_server.arn
+  value = var.transfer_endpoint_type == "PUBLIC" ? aws_transfer_server.transfer_server[0].arn : aws_transfer_server.transfer_server_private[0].arn
 }
 
 output "transfer_server_id" {
-  value = aws_transfer_server.transfer_server.id
+  value = var.transfer_endpoint_type == "PUBLIC" ? aws_transfer_server.transfer_server[0].id : aws_transfer_server.transfer_server_private[0].id
 }
 
 output "transfer_server_endpoint" {
-  value = aws_transfer_server.transfer_server.endpoint
+  value = var.transfer_endpoint_type == "PUBLIC" ? aws_transfer_server.transfer_server[0].endpoint : aws_transfer_server.transfer_server_private[0].endpoint
 }
