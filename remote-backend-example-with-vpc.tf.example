@@ -20,13 +20,23 @@ provider "aws" {
   region = var.aws_region
 }
 
+module "vpc" {
+  source          = "github.com/honestbank/terraform-aws-vpc"
+  name            = "sftp-vpc"
+  cidr            = "10.125.0.0/16"
+  azs             = ["ap-southeast-1a"]
+  public_subnets  = ["10.125.0.0/19"]
+  private_subnets = ["10.125.32.0/19"]
+}
+
 module "sftp" {
   source                         = "./sftp"
-  transfer_endpoint_type         = var.transfer_endpoint_type
+  transfer_endpoint_type         = "VPC"
   transfer_server_name           = var.transfer_server_name
   transfer_server_s3_bucket_name = var.transfer_server_s3_bucket_name
-  transfer_server_subnet_ids     = []
-  transfer_server_vpc_id         = ""
+  transfer_server_subnet_ids     = module.vpc.private_subnets
+  transfer_server_vpc_id         = module.vpc.vpc_id
   transfer_server_write_users    = var.transfer_server_write_users
   transfer_server_readonly_users = var.transfer_server_readonly_users
+  depends_on                     = [module.vpc]
 }

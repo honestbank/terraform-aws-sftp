@@ -3,6 +3,17 @@ variable "aws_region" {
   description = "The AWS Region in which to provision the managed SFTP service + S3 buckets"
 }
 
+variable "transfer_endpoint_type" {
+  type        = string
+  description = "Used to set the SFTP server to a public or private (inside VPC) deployment"
+  default     = "PUBLIC"
+}
+
+variable "transfer_endpoint_details" {
+  type    = list(any)
+  default = []
+}
+
 variable "transfer_server_name" {
   type        = string
   description = "The name to apply to the transfer server i.e: Example's SFTP server"
@@ -19,8 +30,18 @@ variable "transfer_server_readonly_users" {
   default     = []
 }
 
+variable "transfer_server_subnet_ids" {
+  type    = list(any)
+  default = []
+}
+
 variable "transfer_server_write_users" {
   type        = list(any)
   description = "list of user objects for users with write access"
   default     = []
+}
+
+variable "transfer_server_vpc_id" {
+  type    = string
+  default = ""
 }
