@@ -42,6 +42,16 @@ variable "transfer_server_write_users" {
 }
 
 variable "transfer_server_vpc_id" {
-  type    = string
-  default = ""
+  type = string
+  description = "The Id of the VPC that willhouse the transfer server"
+}
+
+variable "sftp_account_assume_role" {
+  description = "The ARN of the role to assume to install the SFTP server"
+  type        = string
+}
+
+variable "permanent_storage_assume_role" {
+  description = "The ARN of the role to assume"
+  type        = string
 }
