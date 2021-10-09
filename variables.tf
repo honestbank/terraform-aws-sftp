@@ -51,7 +51,7 @@ variable "sftp_account_assume_role" {
   type        = string
 }
 
-variable "destination_storage_assume_role" {
+variable "target_storage_assume_role" {
   description = "The ARN of the role to assume"
   type        = string
 }

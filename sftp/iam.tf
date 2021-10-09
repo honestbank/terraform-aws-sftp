@@ -173,7 +173,7 @@ resource "aws_iam_policy" "replication" {
         "s3:ReplicateTags"
       ],
       "Effect": "Allow",
-      "Resource": "${aws_s3_bucket.destination_storage_bucket.arn}/*"
+      "Resource": "${aws_s3_bucket.target_storage_bucket.arn}/*"
     }
   ]
 }

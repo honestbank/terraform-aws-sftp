@@ -16,10 +16,10 @@ provider "aws" {
 }
 
 provider "aws" {
-  alias = "destination"
+  alias = "target"
   region = var.aws_region
   assume_role {
-    role_arn = var.destination_storage_assume_role
+    role_arn = var.target_storage_assume_role
   }
 }
 
@@ -28,7 +28,7 @@ provider "aws" {
 # #################
 locals {
   s3_bucket_name = lower("${var.transfer_server_s3_bucket_name}-${random_id.aws_s3_bucket_transfer_server.hex}")
-  s3_destination_bucket = lower("${var.transfer_server_s3_bucket_name}-destination-${random_id.aws_s3_bucket_transfer_server.hex}")
+  s3_target_bucket = lower("${var.transfer_server_s3_bucket_name}-target-${random_id.aws_s3_bucket_transfer_server.hex}")
 }
 
 resource "random_id" "aws_s3_bucket_transfer_server" {
@@ -48,8 +48,8 @@ resource "aws_s3_bucket" "transfer_server_bucket" {
       status = "Enabled"
 
       destination {
-        bucket        = aws_s3_bucket.destination_storage_bucket.arn
-        storage_class = var.transfer_server_destination_bucket_storage_class
+        bucket        = aws_s3_bucket.target_storage_bucket.arn
+        storage_class = var.transfer_server_target_bucket_storage_class
       }
     }
   }
@@ -73,9 +73,9 @@ resource "aws_s3_bucket_public_access_block" "transfer_server_bucket_block" {
   ignore_public_acls      = true
 }
 
-resource "aws_s3_bucket" "destination_storage_bucket" {
-  provider = aws.destination
-  bucket = local.s3_destination_bucket
+resource "aws_s3_bucket" "target_storage_bucket" {
+  provider = aws.target
+  bucket = local.s3_target_bucket
   acl = "private"
   force_destroy = false
 
@@ -84,10 +84,10 @@ resource "aws_s3_bucket" "destination_storage_bucket" {
   }
 }
 
-# Public access block settings for destination storage bucket
-resource "aws_s3_bucket_public_access_block" "destination_storage_bucket_block" {
-  provider = aws.destination
-  bucket = aws_s3_bucket.destination_storage_bucket.id
+# Public access block settings for target storage bucket
+resource "aws_s3_bucket_public_access_block" "target_storage_bucket_block" {
+  provider = aws.target
+  bucket = aws_s3_bucket.target_storage_bucket.id
   block_public_acls       = true
   block_public_policy     = true
   restrict_public_buckets = true
