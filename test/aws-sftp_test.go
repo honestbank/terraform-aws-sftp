@@ -21,7 +21,7 @@ func TestTerraformAwsTransfer(t *testing.T) {
 		TerraformDir: workingDir,
 		Vars: map[string]interface{}{
 			"sftp_account_assume_role": "arn:aws:iam::124994850539:role/OrganizationAccountAccessRole",
-			"permanent_storage_assume_role": "arn:aws:iam::648237614702:role/OrganizationAccountAccessRole",
+			"destination_storage_assume_role": "arn:aws:iam::648237614702:role/OrganizationAccountAccessRole",
 			"aws_region": "ap-southeast-1",
 			"transfer_endpoint_type": "PUBLIC",
 			"transfer_server_name": "terratest-sftp-server-terratest",

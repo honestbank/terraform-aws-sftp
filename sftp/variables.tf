@@ -22,7 +22,7 @@ variable "transfer_server_s3_bucket_name" {
   description = "The name to apply to the transfer server's s3 storage bucket"
 }
 
-variable "transfer_server_permanent_bucket_storage_class" {
+variable "transfer_server_destination_bucket_storage_class" {
   type = string
   description = "The S3 storage class to create the bucket in. Defaults to STANDARD"
   default = "STANDARD"
@@ -56,7 +56,7 @@ variable "sftp_account_assume_role" {
   type = string
 }
 
-variable "permanent_storage_assume_role" {
+variable "destination_storage_assume_role" {
   description = "The ARN of the role to assume"
   type = string
 }

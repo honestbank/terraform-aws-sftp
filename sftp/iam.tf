@@ -4,7 +4,7 @@
 
 # Assume Role
 data "aws_iam_policy_document" "transfer_server_assume_role" {
-  provider      = aws.ephemeral
+  provider      = aws.source
   statement {
     effect  = "Allow"
     actions = ["sts:AssumeRole"]
@@ -17,14 +17,14 @@ data "aws_iam_policy_document" "transfer_server_assume_role" {
 
 # Transfer server role
 resource "aws_iam_role" "transfer_server_role" {
-  provider      = aws.ephemeral
+  provider      = aws.source
   name               = "${var.transfer_server_name}-transfer_server_role"
   assume_role_policy = data.aws_iam_policy_document.transfer_server_assume_role.json
 }
 
 # Policy for Users with write access
 data "aws_iam_policy_document" "transfer_server_write_policy_document" {
-  provider      = aws.ephemeral
+  provider      = aws.source
   statement {
     effect = "Allow"
 
@@ -47,14 +47,14 @@ data "aws_iam_policy_document" "transfer_server_write_policy_document" {
 
 # Role for Users with write access
 resource "aws_iam_role" "transfer_server_write_role" {
-  provider      = aws.ephemeral
+  provider      = aws.source
   name               = "${var.transfer_server_name}-write-role"
   assume_role_policy = data.aws_iam_policy_document.transfer_server_assume_role.json
 }
 
 # Policy for Users with read-only access
 data "aws_iam_policy_document" "transfer_server_readonly_policy_document" {
-  provider      = aws.ephemeral
+  provider      = aws.source
   statement {
     effect = "Allow"
 
@@ -74,28 +74,28 @@ data "aws_iam_policy_document" "transfer_server_readonly_policy_document" {
 
 # Role for Users with readonly access
 resource "aws_iam_role" "transfer_server_readonly_role" {
-  provider      = aws.ephemeral
+  provider      = aws.source
   name               = "${var.transfer_server_name}-readonly-role"
   assume_role_policy = data.aws_iam_policy_document.transfer_server_assume_role.json
 }
 
 # Map write policy to write enabled Users
 resource "aws_iam_role_policy" "transfer_server_write_policy" {
-  provider      = aws.ephemeral
+  provider      = aws.source
   name   = "${var.transfer_server_name}-transfer_server_write_policy"
   role   = aws_iam_role.transfer_server_write_role.name
   policy = data.aws_iam_policy_document.transfer_server_write_policy_document.json
 }
 
 resource "aws_iam_role_policy" "transfer_server_readonly_policy" {
-  provider      = aws.ephemeral
+  provider      = aws.source
   name   = "${var.transfer_server_name}-transfer_server_readonly_policy"
   role   = aws_iam_role.transfer_server_readonly_role.name
   policy = data.aws_iam_policy_document.transfer_server_readonly_policy_document.json
 }
 
 data "aws_iam_policy_document" "transfer_server_to_cloudwatch_assume_policy" {
-  provider      = aws.ephemeral
+  provider      = aws.source
   statement {
     effect = "Allow"
 
@@ -110,7 +110,7 @@ data "aws_iam_policy_document" "transfer_server_to_cloudwatch_assume_policy" {
 }
 
 resource "aws_iam_role_policy" "transfer_server_to_cloudwatch_policy" {
-  provider      = aws.ephemeral
+  provider      = aws.source
   name   = "${var.transfer_server_name}-transfer_server_to_cloudwatch_policy"
   role   = aws_iam_role.transfer_server_role.name
   policy = data.aws_iam_policy_document.transfer_server_to_cloudwatch_assume_policy.json
@@ -118,7 +118,7 @@ resource "aws_iam_role_policy" "transfer_server_to_cloudwatch_policy" {
 
 # Replication policy for S3 to S3 replication
 resource "aws_iam_role" "replication" {
-  provider      = aws.ephemeral
+  provider      = aws.source
   name = "sftp-replication-role"
 
   assume_role_policy = <<POLICY
@@ -139,7 +139,7 @@ POLICY
 }
 
 resource "aws_iam_policy" "replication" {
-  provider      = aws.ephemeral
+  provider      = aws.source
   name = "sftp-replication-policy"
 
   policy = <<POLICY
@@ -160,7 +160,7 @@ resource "aws_iam_policy" "replication" {
       "Action": [
         "s3:GetObjectVersionForReplication",
         "s3:GetObjectVersionAcl",
-         "s3:GetObjectVersionTagging"
+        "s3:GetObjectVersionTagging"
       ],
       "Effect": "Allow",
       "Resource": [
@@ -170,11 +170,10 @@ resource "aws_iam_policy" "replication" {
     {
       "Action": [
         "s3:ReplicateObject",
-        "s3:ReplicateDelete",
         "s3:ReplicateTags"
       ],
       "Effect": "Allow",
-      "Resource": "${aws_s3_bucket.permanent_storage.arn}/*"
+      "Resource": "${aws_s3_bucket.destination_storage_bucket.arn}/*"
     }
   ]
 }
