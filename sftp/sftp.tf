@@ -65,8 +65,8 @@ resource "aws_s3_bucket" "transfer_server_bucket" {
 
 # Public access block settings for Transfer Server backing bucket
 resource "aws_s3_bucket_public_access_block" "transfer_server_bucket_block" {
+  provider = aws.source
   bucket = aws_s3_bucket.transfer_server_bucket.id
-
   block_public_acls       = true
   block_public_policy     = true
   restrict_public_buckets = true
@@ -86,8 +86,8 @@ resource "aws_s3_bucket" "destination_storage_bucket" {
 
 # Public access block settings for destination storage bucket
 resource "aws_s3_bucket_public_access_block" "destination_storage_bucket_block" {
+  provider = aws.destination
   bucket = aws_s3_bucket.destination_storage_bucket.id
-
   block_public_acls       = true
   block_public_policy     = true
   restrict_public_buckets = true
