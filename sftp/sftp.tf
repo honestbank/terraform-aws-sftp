@@ -59,7 +59,7 @@ resource "aws_s3_bucket" "transfer_server_bucket" {
   }
 
   tags = {
-    type = "Managed by Terraform"
+    Terraform = true
   }
 }
 
