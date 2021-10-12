@@ -36,7 +36,7 @@ jobs:
         run: terraform validate -no-color
       - name: Terraform Plan
         id: plan
-        run: terraform plan -no-color --var-file test.tfvars
+        run: terraform plan -no-color --var-file terraform_plan.tfvars
         continue-on-error: true
       - uses: actions/github-script@0.9.0
         if: github.event_name == 'pull_request'

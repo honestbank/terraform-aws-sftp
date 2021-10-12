@@ -1,5 +1,5 @@
-sftp_account_assume_role       = "arn:aws:iam::124994850539:role/OrganizationAccountAccessRole"
-target_storage_assume_role     = "arn:aws:iam::648237614702:role/OrganizationAccountAccessRole"
+sftp_account_assume_role       = "arn:aws:iam::106256755710:role/OrganizationAccountAccessRole"
+target_storage_assume_role     = "arn:aws:iam::295611461399:role/OrganizationAccountAccessRole"
 aws_region                     = "ap-southeast-1"
 transfer_endpoint_type         = "PUBLIC"
 transfer_server_name           = "terratest-sftp-server-terratest"
