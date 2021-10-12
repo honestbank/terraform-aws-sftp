@@ -28,7 +28,6 @@ variable "transfer_server_target_bucket_storage_class" {
   default = "STANDARD"
 }
 
-
 variable "transfer_server_readonly_users" {
   type        = list(any)
   description = "list of user objects for users with readonly access"
