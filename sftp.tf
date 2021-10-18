@@ -2,6 +2,9 @@ provider "aws" {
   region = var.aws_region
 }
 
+variable "source_role_arn" {
+  default = ""
+}
 provider "aws" {
   region = var.aws_region
   alias  = "source"
