@@ -2,14 +2,11 @@ provider "aws" {
   region = var.aws_region
 }
 
-variable "source_role_arn" {
-  default = ""
-}
 provider "aws" {
   region = var.aws_region
   alias  = "source"
   assume_role {
-    role_arn = var.source_role_arn
+    role_arn = var.sftp_account_assume_role
   }
 }
 
@@ -17,7 +14,7 @@ provider "aws" {
   region = var.aws_region
   alias  = "target"
   assume_role {
-    role_arn = var.target_role_arn
+    role_arn = var.target_storage_assume_role
   }
 }
 
