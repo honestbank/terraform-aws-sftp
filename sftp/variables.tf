@@ -8,11 +8,6 @@ variable "transfer_server_name" {
   description = "The name to apply to the transfer server i.e: Example's SFTP server"
 }
 
-variable "transfer_endpoint_details" {
-  type    = list(any)
-  default = []
-}
-
 variable "transfer_endpoint_type" {
   type        = string
   description = "Used to set the SFTP server to a public or private (inside VPC) deployment"
