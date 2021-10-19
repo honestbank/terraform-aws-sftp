@@ -7,15 +7,8 @@ on:
     branches:
       - main
 env:
-  tf_version: "latest"
-  tf_working_dir: "sftp"
-  tf_var_aws_region: "ap-southeast-1"
-  tf_var_sftp_account_assume_role: "arn:aws:iam::106256755710:role/OrganizationAccountAccessRole"
-  tf_var_target_storage_assume_role: "arn:aws:iam::295611461399:role/OrganizationAccountAccessRole"
-  tf_var_transfer_endpoint_type: "PUBLIC"
-  tf_var_transfer_server_name: "terratest-sftp-server-terratest"
-  tf_var_transfer_server_s3_bucket_name: "name"
-  tf_var_transfer_server_vpc_id:         "vpc-001a8eeb991091c73"
+  tf_version:                             "latest"
+  tf_working_dir:                         "sftp"
 jobs:
   terraform:
     name: "Terraform - Format, Init, Validate, Plan, Fail on Change"
@@ -44,6 +37,14 @@ jobs:
       - name: Terraform Plan
         id: plan
         run: terraform plan -no-color
+        env:
+          TF_VAR_aws_region: "ap-southeast-1"
+          TF_VAR_sftp_account_assume_role: "arn:aws:iam::106256755710:role/OrganizationAccountAccessRole"
+          TF_VAR_target_storage_assume_role: "arn:aws:iam::295611461399:role/OrganizationAccountAccessRole"
+          TF_VAR_transfer_endpoint_type: "PUBLIC"
+          TF_VAR_transfer_server_name: "terratest-sftp-server-terratest"
+          TF_VAR_transfer_server_s3_bucket_name: "name"
+          TF_VAR_transfer_server_vpc_id: "vpc-001a8eeb991091c73"
         continue-on-error: true
       - uses: actions/github-script@0.9.0
         if: github.event_name == 'pull_request'
