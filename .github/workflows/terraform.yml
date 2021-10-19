@@ -38,7 +38,7 @@ jobs:
         id: plan
         run: terraform plan -no-color
         env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           TF_VAR_aws_region: "ap-southeast-1"
           TF_VAR_sftp_account_assume_role: "arn:aws:iam::106256755710:role/OrganizationAccountAccessRole"
