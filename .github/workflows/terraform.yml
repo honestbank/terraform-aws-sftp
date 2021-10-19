@@ -7,8 +7,8 @@ on:
     branches:
       - main
 env:
-  tf_version:                             "latest"
-  tf_working_dir:                         "sftp"
+  tf_version: "latest"
+  tf_working_dir: "sftp"
 jobs:
   terraform:
     name: "Terraform - Format, Init, Validate, Plan, Fail on Change"
