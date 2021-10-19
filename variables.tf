@@ -6,12 +6,10 @@ variable "aws_region" {
 variable "transfer_endpoint_type" {
   type        = string
   description = "Used to set the SFTP server to a public or private (inside VPC) deployment"
-  default     = "PUBLIC"
 }
 
 variable "transfer_endpoint_details" {
   type    = list(any)
-  default = []
 }
 
 variable "transfer_server_name" {
@@ -27,23 +25,21 @@ variable "transfer_server_s3_bucket_name" {
 variable "transfer_server_readonly_users" {
   type        = list(any)
   description = "list of user objects for users with readonly access"
-  default     = []
 }
 
 variable "transfer_server_subnet_ids" {
   type    = list(any)
-  default = []
+  description = "list of subnet ids to install the transfer server endpoint into (if using VPC and not PUBLIC endpoint)"
 }
 
 variable "transfer_server_write_users" {
   type        = list(any)
   description = "list of user objects for users with write access"
-  default     = []
 }
 
 variable "transfer_server_vpc_id" {
   type        = string
-  description = "The Id of the VPC that willhouse the transfer server"
+  description = "The Id of the VPC that will house the transfer server"
 }
 
 variable "sftp_account_assume_role" {

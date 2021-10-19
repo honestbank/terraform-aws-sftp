@@ -8,7 +8,18 @@ on:
       - main
 env:
   tf_version: "latest"
-  tf_working_dir: "."
+  tf_working_dir: "sftp"
+  tf_var_aws_region: "ap-southeast-1"
+  tf_var_sftp_account_assume_role: "arn:aws:iam::106256755710:role/OrganizationAccountAccessRole"
+  tf_var_target_storage_assume_role: "arn:aws:iam::295611461399:role/OrganizationAccountAccessRole"
+  tf_var_transfer_endpoint_details:  []
+  tf_var_transfer_endpoint_type:         "PUBLIC"
+  tf_var_transfer_server_name:           "terratest-sftp-server-terratest"
+  tf_var_transfer_server_s3_bucket_name: "name"
+  tf_var_transfer_server_subnet_ids: []
+  tf_var_transfer_server_readonly_users: []
+  tf_var_transfer_server_vpc_id:         "vpc-001a8eeb991091c73"
+  tf_var_transfer_server_write_users: []
 jobs:
   terraform:
     name: "Terraform - Format, Init, Validate, Plan, Fail on Change"
@@ -36,7 +47,7 @@ jobs:
         run: terraform validate -no-color
       - name: Terraform Plan
         id: plan
-        run: terraform plan -no-color --var-file terraform_plan.tfvars
+        run: terraform plan -no-color
         continue-on-error: true
       - uses: actions/github-script@0.9.0
         if: github.event_name == 'pull_request'
