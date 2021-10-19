@@ -46,7 +46,7 @@ jobs:
           TF_VAR_transfer_endpoint_type: "PUBLIC"
           TF_VAR_transfer_server_name: "terratest-sftp-server-terratest"
           TF_VAR_transfer_server_s3_bucket_name: "name"
-          TF_VAR_transfer_server_vpc_id: "vpc-001a8eeb991091c73"ß
+          TF_VAR_transfer_server_vpc_id: "vpc-001a8eeb991091c73"
         continue-on-error: true
       - uses: actions/github-script@0.9.0
         if: github.event_name == 'pull_request'
