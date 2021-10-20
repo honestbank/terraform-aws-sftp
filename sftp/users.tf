@@ -1,5 +1,6 @@
 ## PUBLIC SERVER
 resource "aws_transfer_user" "transfer_server_readonly_user_public" {
+  provider      = aws.source
   count = var.transfer_endpoint_type == "PUBLIC" ? length(var.transfer_server_readonly_users) : 0
 
   server_id           = aws_transfer_server.transfer_server[0].id
@@ -13,6 +14,7 @@ resource "aws_transfer_user" "transfer_server_readonly_user_public" {
 }
 
 resource "aws_transfer_user" "transfer_server_write_user_public" {
+  provider      = aws.source
   count = var.transfer_endpoint_type == "PUBLIC" ? length(var.transfer_server_write_users) : 0
 
   server_id           = aws_transfer_server.transfer_server[0].id
@@ -27,6 +29,7 @@ resource "aws_transfer_user" "transfer_server_write_user_public" {
 
 ## PRIVATE SERVER
 resource "aws_transfer_user" "transfer_server_readonly_user_private" {
+  provider      = aws.source
   count = var.transfer_endpoint_type == "VPC" ? length(var.transfer_server_readonly_users) : 0
 
   server_id           = aws_transfer_server.transfer_server_private[0].id
@@ -40,6 +43,7 @@ resource "aws_transfer_user" "transfer_server_readonly_user_private" {
 }
 
 resource "aws_transfer_user" "transfer_server_write_user_private" {
+  provider      = aws.source
   count = var.transfer_endpoint_type == "VPC" ? length(var.transfer_server_write_users) : 0
 
   server_id           = aws_transfer_server.transfer_server_private[0].id

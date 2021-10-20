@@ -20,9 +20,13 @@ func TestTerraformAwsTransfer(t *testing.T) {
 	terraformOptions := terraform.WithDefaultRetryableErrors(t, &terraform.Options{
 		TerraformDir: workingDir,
 		Vars: map[string]interface{}{
-			"transfer_endpoint_type":	"PUBLIC",
-			"transfer_server_name":           "terratest-sftp-server-terratest",
+			"sftp_account_assume_role": "arn:aws:iam::106256755710:role/OrganizationAccountAccessRole",
+			"target_storage_assume_role": "arn:aws:iam::295611461399:role/OrganizationAccountAccessRole",
+			"aws_region": "ap-southeast-1",
+			"transfer_endpoint_type": "PUBLIC",
+			"transfer_server_name": "terratest-sftp-server-terratest",
 			"transfer_server_s3_bucket_name": name,
+			"transfer_server_vpc_id": "vpc-001a8eeb991091c73",
 			"transfer_server_write_users": []map[string]interface{}{
 				{
 					"user_name":      "terratest-user01",
