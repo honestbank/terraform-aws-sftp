@@ -115,7 +115,6 @@ resource "aws_transfer_server" "transfer_server_private" {
   endpoint_details {
     subnet_ids = var.transfer_server_subnet_ids
     vpc_id     = var.transfer_server_vpc_id
-    vpc_endpoint_id = ""
   }
 
   tags = {
