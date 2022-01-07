@@ -1,13 +1,13 @@
 terraform {
   required_providers {
     aws = {
-      source  = "hashicorp/aws"
+      source = "hashicorp/aws"
     }
   }
 }
 
 provider "aws" {
-  alias = "source"
+  alias  = "source"
   region = var.aws_region
   assume_role {
     role_arn = var.sftp_account_assume_role
@@ -15,7 +15,7 @@ provider "aws" {
 }
 
 provider "aws" {
-  alias = "target"
+  alias  = "target"
   region = var.aws_region
   assume_role {
     role_arn = var.target_storage_assume_role
@@ -26,8 +26,8 @@ provider "aws" {
 # S3 Storage Bucket
 # #################
 locals {
-  s3_bucket_name = lower("${var.transfer_server_s3_bucket_name}-${random_id.aws_s3_bucket_transfer_server.hex}")
-  s3_target_bucket = lower("${var.transfer_server_s3_bucket_name}-target-${random_id.aws_s3_bucket_transfer_server.hex}")
+  s3_bucket_name   = lower("${var.transfer_server_s3_bucket_name}-${random_id.aws_s3_bucket_transfer_server.hex}")
+  s3_target_bucket = lower("${var.transfer_server_s3_bucket_name}-replica-${random_id.aws_s3_bucket_transfer_server.hex}")
 }
 
 resource "random_id" "aws_s3_bucket_transfer_server" {
@@ -64,8 +64,8 @@ resource "aws_s3_bucket" "transfer_server_bucket" {
 
 # Public access block settings for Transfer Server backing bucket
 resource "aws_s3_bucket_public_access_block" "transfer_server_bucket_block" {
-  provider = aws.source
-  bucket = aws_s3_bucket.transfer_server_bucket.id
+  provider                = aws.source
+  bucket                  = aws_s3_bucket.transfer_server_bucket.id
   block_public_acls       = true
   block_public_policy     = true
   restrict_public_buckets = true
@@ -73,9 +73,9 @@ resource "aws_s3_bucket_public_access_block" "transfer_server_bucket_block" {
 }
 
 resource "aws_s3_bucket" "target_storage_bucket" {
-  provider = aws.target
-  bucket = local.s3_target_bucket
-  acl = "private"
+  provider      = aws.target
+  bucket        = local.s3_target_bucket
+  acl           = "private"
   force_destroy = false
 
   versioning {
@@ -85,8 +85,8 @@ resource "aws_s3_bucket" "target_storage_bucket" {
 
 # Public access block settings for target storage bucket
 resource "aws_s3_bucket_public_access_block" "target_storage_bucket_block" {
-  provider = aws.target
-  bucket = aws_s3_bucket.target_storage_bucket.id
+  provider                = aws.target
+  bucket                  = aws_s3_bucket.target_storage_bucket.id
   block_public_acls       = true
   block_public_policy     = true
   restrict_public_buckets = true
@@ -95,7 +95,7 @@ resource "aws_s3_bucket_public_access_block" "target_storage_bucket_block" {
 
 resource "aws_transfer_server" "transfer_server" {
   count                  = var.transfer_endpoint_type == "PUBLIC" ? 1 : 0
-  provider = aws.source
+  provider               = aws.source
   identity_provider_type = "SERVICE_MANAGED"
   logging_role           = aws_iam_role.transfer_server_role.arn
   protocols              = ["SFTP"]
@@ -133,7 +133,7 @@ resource "aws_transfer_ssh_key" "transfer_server_readonly_ssh_keys_public" {
 
 resource "aws_transfer_ssh_key" "transfer_server_write_ssh_keys_public" {
   provider = aws.source
-  count = var.transfer_endpoint_type == "PUBLIC" ? length(var.transfer_server_write_users) : 0
+  count    = var.transfer_endpoint_type == "PUBLIC" ? length(var.transfer_server_write_users) : 0
 
   server_id = aws_transfer_server.transfer_server[0].id
   user_name = element(aws_transfer_user.transfer_server_write_user_public.*.user_name, count.index)
