@@ -10,6 +10,10 @@ output "transfer_server_endpoint" {
   value = module.sftp.transfer_server_endpoint
 }
 
+output "transfer_server_endpoint_id" {
+  value = module.sftp.transfer_server_endpoint_id
+}
+
 output "transfer_storage_bucket_name" {
   value = module.sftp.transfer_storage_bucket_name
 }
