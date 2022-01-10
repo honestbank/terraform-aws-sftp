@@ -15,7 +15,7 @@ output "transfer_server_endpoint" {
 
 output "transfer_server_endpoint_id" {
   description = "ID of the SFTP VPC endpoint"
-  value       = aws_vpc_endpoint.sftp_vpc_endpoint.id
+  value       = var.transfer_endpoint_type == "VPC" ? aws_vpc_endpoint.sftp_vpc_endpoint[0].id : null
 }
 
 output "transfer_storage_bucket_name" {

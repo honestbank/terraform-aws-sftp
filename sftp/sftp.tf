@@ -113,7 +113,7 @@ resource "aws_transfer_server" "transfer_server_private" {
   protocols              = ["SFTP"]
   endpoint_type          = var.transfer_endpoint_type
   endpoint_details {
-    vpc_endpoint_id = aws_vpc_endpoint.sftp_vpc_endpoint.id
+    vpc_endpoint_id = aws_vpc_endpoint.sftp_vpc_endpoint[0].id
   }
 
   tags = {
@@ -122,6 +122,7 @@ resource "aws_transfer_server" "transfer_server_private" {
 }
 
 resource "aws_security_group" "sftp_sg" {
+  count = var.transfer_endpoint_type == "VPC" ? 1 : 0
   provider = aws.source
   vpc_id   = var.transfer_server_vpc_id
   ingress {
@@ -142,13 +143,14 @@ resource "aws_security_group" "sftp_sg" {
 }
 
 resource "aws_vpc_endpoint" "sftp_vpc_endpoint" {
+  count                  = var.transfer_endpoint_type == "VPC" ? 1 : 0
   provider           = aws.source
   vpc_id             = var.transfer_server_vpc_id
   auto_accept        = true
   vpc_endpoint_type  = "Interface"
   service_name       = "com.amazonaws.${var.aws_region}.transfer.server"
   subnet_ids         = var.transfer_server_subnet_ids
-  security_group_ids = [aws_security_group.sftp_sg.id]
+  security_group_ids = [aws_security_group.sftp_sg[0].id]
 }
 
 ## PUBLIC SERVER
