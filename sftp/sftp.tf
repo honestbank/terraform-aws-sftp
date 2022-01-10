@@ -113,13 +113,44 @@ resource "aws_transfer_server" "transfer_server_private" {
   protocols              = ["SFTP"]
   endpoint_type          = var.transfer_endpoint_type
   endpoint_details {
-    subnet_ids = var.transfer_server_subnet_ids
-    vpc_id     = var.transfer_server_vpc_id
+    vpc_endpoint_id = aws_vpc_endpoint.sftp_vpc_endpoint[0].id
   }
 
   tags = {
     Terraform = true
   }
+}
+
+resource "aws_security_group" "sftp_sg" {
+  count    = var.transfer_endpoint_type == "VPC" ? 1 : 0
+  provider = aws.source
+  vpc_id   = var.transfer_server_vpc_id
+  ingress {
+    description = "Allow all incoming traffic on port 22"
+    from_port   = 22
+    to_port     = 22
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  egress {
+    description = "Allow all outgoing TCP traffic"
+    from_port   = 0
+    to_port     = 0
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+}
+
+resource "aws_vpc_endpoint" "sftp_vpc_endpoint" {
+  count              = var.transfer_endpoint_type == "VPC" ? 1 : 0
+  provider           = aws.source
+  vpc_id             = var.transfer_server_vpc_id
+  auto_accept        = true
+  vpc_endpoint_type  = "Interface"
+  service_name       = "com.amazonaws.${var.aws_region}.transfer.server"
+  subnet_ids         = var.transfer_server_subnet_ids
+  security_group_ids = [aws_security_group.sftp_sg[0].id]
 }
 
 ## PUBLIC SERVER
